@@ -2,24 +2,25 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Exceptions\ApiException;
-use App\Exceptions\MyApiQueryException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\CategoryResource;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+use App\Services\CategoryService;
 
 class CategoryController extends Controller
 {
+    protected $categoryService;
+
+    public function __construct(CategoryService $categoryService)
+    {
+        $this->categoryService = $categoryService;
+    }
+
     public function index()
     {
-        $categories = Category::paginate(10);
+        $categories = $this->categoryService->paginate();
 
         return CategoryResource::collection($categories);
 
@@ -27,37 +28,10 @@ class CategoryController extends Controller
 
     public function store(StoreCategoryRequest $request)
     {
-        try {
 
-            return DB::transaction(function () use ($request) {
+        $category = $this->categoryService->store($request->validated(), $request->hasFile('icon'), $request->file('icon'));
 
-                $category = Category::create($request->validated());
-
-                if ($request->hasFile('icon')) {
-
-                    $path = $this->uploadIcon($request, $category);
-
-                    $category->update(['icon' => $path]);
-
-                }
-
-                return new CategoryResource($category);
-
-            });
-
-        } catch (QueryException $e) {
-
-            Log::error("Database error while storing category: " . $e->getMessage());
-
-            throw new MyApiQueryException('An error occurred.', $e, 500);
-
-        } catch (\Exception $e) {
-
-            Log::error("Unexpected error while storing category: " . $e->getMessage());
-
-            throw new ApiException('unexpected error while storing category', $e, 500);
-
-        }
+        return new CategoryResource($category);
 
     }
 
@@ -68,91 +42,23 @@ class CategoryController extends Controller
 
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        try {
+        $category = $this->categoryService->update($category, $request->validated(), $request->hasFile('icon'), $request->file('icon'));
 
-            return DB::transaction(function () use ($request, $category) {
+        return new CategoryResource($category);
 
-                $category->update($request->validated());
-
-                if ($request->hasFile('icon')) {
-
-                    $path = $this->uploadIcon($request, $category);
-
-                    $category->update(['icon' => $path]);
-
-                }
-
-                return new CategoryResource($category);
-
-            });
-
-        } catch (QueryException $e) {
-
-            Log::error("Database error while updating category: " . $e->getMessage());
-
-            throw new MyApiQueryException('An error occurred.', $e, 500);
-
-        } catch (\Exception $e) {
-
-            Log::error("Unexpected error while updating category: " . $e->getMessage());
-
-            throw new ApiException('unexpected error while storing category', $e, 500);
-
-        }
     }
 
     public function destroy(Category $category)
     {
-        try {
+        $this->categoryService->destroy($category);
 
-            return DB::transaction(function () use ($category) {
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Category deleted successfully',
+            ]);
 
-                if ($category->icon && Storage::disk('public')->exists($category->icon)) {
-
-                    Storage::disk('public')->delete($category->icon);
-
-                }
-
-                $category->delete();
-
-                return response()->json(
-                    [
-                        'success' => true,
-                        'message' => 'Category deleted successfully',
-                    ]);
-
-            });
-
-        } catch (QueryException $e) {
-
-            Log::error("Database error while deleting category: " . $e->getMessage());
-
-            throw new MyApiQueryException('Database error occurred while deleting category', $e, 500);
-
-        } catch (\Exception $e) {
-
-            Log::error("Unexpected error while deleting category: " . $e->getMessage());
-
-            throw new ApiException('Unexpected error occurred while deleting category', $e, 500);
-
-        }
     }
 
-    private function uploadIcon($request, $category)
-    {
-        $icon = $request->file('icon');
 
-        $iconName = $category->slug . '.' . $icon->getClientOriginalExtension();
-
-        //remove preview icon
-        if ($category->icon && Storage::disk('public')->exists($category->icon)) {
-
-            Storage::disk('public')->delete($category->icon);
-
-        }
-
-        $path = $icon->storeAs('categories', $iconName, 'public');
-
-        return $path;
-    }
 }
