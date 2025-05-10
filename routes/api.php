@@ -89,5 +89,6 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'checkIsAdmin'])->group(func
     Route::get('products/create', [AdminProductController::class, 'create']);
     Route::get('products/{product}/edit', [AdminProductController::class, 'edit']);
     Route::apiResource('products', AdminProductController::class);
+    Route::post('setPrimaryImage/{product}/{productImage}', [AdminProductController::class, 'setPrimaryImage']);
 
 });
