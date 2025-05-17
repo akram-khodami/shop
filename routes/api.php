@@ -10,8 +10,10 @@ use App\Http\Controllers\Frontend\BrandController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CategoryController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\InvoiceController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\PageController;
+use App\Http\Controllers\Frontend\PayController;
 use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\ShippingController;
@@ -64,6 +66,10 @@ Route::namespace('App\Http\Controllers\Frontend')->group(function () {
         Route::get('/orders', [OrderController::class, 'index']);
         Route::get('/orders/{order}', [OrderController::class, 'show'])->middleware('checkOrder');
         Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->middleware('checkOrder'); // لغو سفارش
+
+        Route::get('pay', [PayController::class, 'choosePayWay']);
+        Route::get('verifyPayment', [PayController::class, 'verifyPayment']);
+        Route::get('invoices', [InvoiceController::class, 'index']);
     });
 
 
@@ -89,5 +95,6 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'checkIsAdmin'])->group(func
     Route::get('products/create', [AdminProductController::class, 'create']);
     Route::get('products/{product}/edit', [AdminProductController::class, 'edit']);
     Route::apiResource('products', AdminProductController::class);
+    Route::post('setPrimaryImage/{product}/{productImage}', [AdminProductController::class, 'setPrimaryImage']);
 
 });

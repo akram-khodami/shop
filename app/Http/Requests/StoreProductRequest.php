@@ -37,7 +37,7 @@ class StoreProductRequest extends FormRequest
             'attributes.*.attribute_id' => 'required|exists:attributes,id',
             'attributes.*.value' => 'required|string|max:255',
 
-            'brand'=>'required|exists:brands,id',
+            'brand_id'=>'required|exists:brands,id',
         ];
     }
 }
