@@ -5,11 +5,19 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\ProductResource;
 use App\Models\Product;
+use App\Services\ProductService;
 use Illuminate\Http\Request;
 use function Illuminate\Support\query;
 
 class ProductController extends Controller
 {
+    protected $productService;
+
+    public function __construct(ProductService $productService)
+    {
+        $this->productService = $productService;
+    }
+
     public function index()
     {
         $products = Product::query()
@@ -37,4 +45,6 @@ class ProductController extends Controller
     {
 
     }
+
+
 }

@@ -9,15 +9,12 @@ class ApiException extends Exception
     protected $data;
     protected $statusCode;
 
-    public function __construct($message, ?Exception $e = null, int $statusCode = 500)
+    public function __construct(string $message, array $data = [], int $statusCode = 500)
     {
-        parent::__construct($message, 0, $e);
+        parent::__construct($message, 0);
 
         $this->statusCode = $statusCode;
-        $this->data = [
-            'exception' => $e ? get_class($e) : null,
-            'trace' => config('app.debug') && $e ? $e->getTrace() : null,
-        ];
+        $this->data = $this->data;
     }
 
     public function render($request)

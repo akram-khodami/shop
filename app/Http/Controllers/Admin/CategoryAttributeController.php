@@ -7,6 +7,7 @@ use App\Http\Resources\Admin\AttributeResource;
 use App\Http\Resources\Admin\CategoryResource;
 use App\Models\Attribute;
 use App\Models\Category;
+use App\Services\CategoryAttributeService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use function Carbon\toArray;
@@ -14,29 +15,26 @@ use function Illuminate\Auth\Access\resource;
 
 class CategoryAttributeController extends Controller
 {
-    /**
-     * نمایش لیست ویژگی‌ها و ویژگی‌های اختصاص داده شده به دسته‌بندی
-     *
-     * @param Category $category
-     * @return JsonResponse
-     */
+    private $categoryAttributeService;
+
+    public function __construct(CategoryAttributeService $categoryAttributeService)
+    {
+        $this->categoryAttributeService = $categoryAttributeService;
+    }
+
     public function index(Category $category): JsonResponse
     {
-        $attributes = Attribute::query()
-            ->orderBy('name')
-            ->get();
-
-        $assignedAttributeIds = $category->attributes()->pluck('attributes.id')->toArray();
+        $data = $this->categoryAttributeService->showCategoryAttributesPageData($category);
 
         return response()->json(
             [
                 'data' => [
                     'category' => new CategoryResource($category),
-                    'attributes' => AttributeResource::collection($attributes),
-                    'assignedAttributeIds' => $assignedAttributeIds,
+                    'attributes' => AttributeResource::collection($data['attributes']),
+                    'assignedAttributeIds' => $data['assignedAttributeIds'],
                 ],
                 'meta' => [
-                    'assignedCount' => $category->attributes()->count(),
+                    'assignedCount' => $data['assignedCount'],
                 ]
             ]);
     }
@@ -55,6 +53,7 @@ class CategoryAttributeController extends Controller
             'attribute_ids.*' => ['integer', 'exists:attributes,id']
         ]);
 
+        //===تاریخ ها ثبت شوند یا کلا ستون های تاریخ در جدول واسط حذف شوند
         $category->attributes()->syncWithoutDetaching($validated['attribute_ids']);//اتصال‌های قبلی باید باقی بمونن و داده‌های جدید اضافه بشن
 //        $category->attributes()->sync($validated['attribute_ids']);//همهٔ اتصال‌های قبلی باید پاک بشن و فقط داده‌های جدید بمونه
 
