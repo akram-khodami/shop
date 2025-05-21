@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\OrderPlaced;
+use App\Listeners\SendOrderConfirmationEmail;
 use App\Services\PayServiceInterface;
 use App\Services\ZarinpalPayService;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Event::listen(
+            OrderPlaced::class,SendOrderConfirmationEmail::class
+            );
     }
 }
