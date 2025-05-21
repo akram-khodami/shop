@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Events\OrderPlaced;
 use App\Exceptions\ApiException;
 use App\Models\Order;
 use App\Repositories\CartRepository;
@@ -181,6 +182,9 @@ class PaymentService
             $this->cartRepository->updateWhere(['user_id' => auth()->id()], ['is_active' => false]);
 
         });
+
+        event(new OrderPlaced($order));
+
     }
 
     public function handleFailedPayment($order, $authority, $status, $ref_id)
