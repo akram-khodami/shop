@@ -17,6 +17,7 @@ use App\Http\Controllers\Frontend\PayController;
 use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\ShippingController;
+use App\Http\Controllers\OTPAuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::namespace('App\Http\Controllers\Frontend')->group(function () {
@@ -80,6 +81,8 @@ Route::namespace('App\Http\Controllers\Frontend')->group(function () {
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/OTPlogin', [OTPAuthController::class, 'login']);
+    Route::post('/checkCode', [OTPAuthController::class, 'checkCode']);
     Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
     Route::middleware('auth:sanctum')->get('/user', [AuthController::class, 'user']);
 });
