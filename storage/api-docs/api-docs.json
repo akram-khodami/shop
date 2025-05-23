@@ -164,13 +164,23 @@
         "/api/admin/categories": {
             "get": {
                 "tags": [
-                    "Category"
+                    "Categories"
                 ],
-                "summary": "دریافت لیست دسته بندی ها",
+                "summary": "categories list",
                 "operationId": "f2245c68077a53aeb959c65f6b313825",
                 "responses": {
                     "200": {
-                        "description": "لیست دسته بندی ها"
+                        "description": "get and show list of categories in manage categories page",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Category"
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -181,7 +191,7 @@
             },
             "put": {
                 "tags": [
-                    "Category"
+                    "Categories"
                 ],
                 "summary": "دریافت لیست دسته بندی ها",
                 "operationId": "371ad965dbe12748f9ffb2f0d26b5979",
@@ -200,7 +210,7 @@
         "/api/admin/Categories": {
             "post": {
                 "tags": [
-                    "Category"
+                    "Categories"
                 ],
                 "summary": "Create a new Category",
                 "description": "Stores a new Category in the database",
@@ -328,7 +338,7 @@
         "/api/admin/categories/{id}": {
             "delete": {
                 "tags": [
-                    "Category"
+                    "Categories"
                 ],
                 "summary": "حذف دسته بندی ها",
                 "operationId": "758ac4f7cb5b21e5640e6dd136f3d77c",
@@ -347,52 +357,6 @@
     },
     "components": {
         "schemas": {
-            "Brand": {
-                "title": "Brand",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "name": {
-                        "type": "string",
-                        "example": "ORIGINAL"
-                    },
-                    "slug": {
-                        "type": "string",
-                        "example": "original"
-                    },
-                    "description": {
-                        "type": "string",
-                        "example": "ORIGINAL Desc"
-                    },
-                    "logo": {
-                        "type": "string",
-                        "example": "brands/original.png"
-                    },
-                    "is_active": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2025-05-17T10:19:07.000000Z"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2025-05-17T10:19:07.000000Z"
-                    },
-                    "deleted_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": null,
-                        "nullable": true
-                    }
-                },
-                "type": "object"
-            },
             "BrandResource": {
                 "title": "Brand Resource",
                 "properties": {
@@ -488,6 +452,98 @@
                     }
                 },
                 "type": "object"
+            },
+            "Brand": {
+                "title": "Brand",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "ORIGINAL"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "original"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "ORIGINAL Desc"
+                    },
+                    "logo": {
+                        "type": "string",
+                        "example": "brands/original.png"
+                    },
+                    "is_active": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-05-17T10:19:07.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-05-17T10:19:07.000000Z"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": null,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "Category": {
+                "title": "Category",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "ORIGINAL"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "original"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "ORIGINAL Desc"
+                    },
+                    "logo": {
+                        "type": "string",
+                        "example": "categories/original.png"
+                    },
+                    "is_active": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-05-17T10:19:07.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-05-17T10:19:07.000000Z"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": null,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -497,8 +553,8 @@
             "description": "Brands"
         },
         {
-            "name": "Category",
-            "description": "Category"
+            "name": "Categories",
+            "description": "Categories"
         }
     ]
 }

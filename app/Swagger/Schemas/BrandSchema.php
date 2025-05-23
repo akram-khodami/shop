@@ -1,7 +1,8 @@
 <?php
 
 
-namespace App\Http\Controllers;
+namespace App\Swagger\Schemas;
+
 /**
  * @OA\Schema(
  *     schema="Brand",
@@ -18,7 +19,6 @@ namespace App\Http\Controllers;
  *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true, example=null),
  * )
  */
-class SwaggerSchemas
+class BrandSchema
 {
-
 }

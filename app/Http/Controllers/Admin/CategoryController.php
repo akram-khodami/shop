@@ -21,12 +21,16 @@ class CategoryController extends Controller
     /**
      * @OA\Get(
      *     path="/api/admin/categories",
-     *     tags={"Category"},
+     *     tags={"Categories"},
+     *     summary="categories list",
      *     security={{"bearerAuth": {}}},
-     *     summary="دریافت لیست دسته بندی ها",
      *     @OA\Response(
      *         response=200,
-     *         description="لیست دسته بندی ها"
+     *         description="get and show list of categories in manage categories page",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Category")
+     *         )
      *     )
      * )
      */
@@ -43,7 +47,7 @@ class CategoryController extends Controller
      *
      * @OA\Post(
      *     path="/api/admin/Categories",
-     *     tags={"Category"},
+     *     tags={"Categories"},
      *     summary="Create a new Category",
      *     description="Stores a new Category in the database",
      *     operationId="storeCategory",
@@ -114,7 +118,7 @@ class CategoryController extends Controller
     /**
      * @OA\Put(
      *     path="/api/admin/categories",
-     *     tags={"Category"},
+     *     tags={"Categories"},
      *     security={{"bearerAuth": {}}},
      *     summary="دریافت لیست دسته بندی ها",
      *     @OA\Response(
@@ -130,10 +134,11 @@ class CategoryController extends Controller
         return new CategoryResource($category);
 
     }
+
     /**
      * @OA\Delete(
      *     path="/api/admin/categories/{id}",
-     *     tags={"Category"},
+     *     tags={"Categories"},
      *     security={{"bearerAuth": {}}},
      *     summary="حذف دسته بندی ها",
      *     @OA\Response(

@@ -122,6 +122,18 @@ class BrandController extends Controller
 
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/admin/categories/{id}",
+     *     tags={"Categories"},
+     *     security={{"bearerAuth": {}}},
+     *     summary="حذف دسته بندی ها",
+     *     @OA\Response(
+     *         response=200,
+     *         description="حذف دسته بندی ها"
+     *     )
+     * )
+     */
     public function destroy(Brand $brand)
     {
         $this->brandService->destroy($brand);
