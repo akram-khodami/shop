@@ -14,7 +14,7 @@ class ApiException extends Exception
         parent::__construct($message, 0);
 
         $this->statusCode = $statusCode;
-        $this->data = $this->data;
+        $this->data = $data;
     }
 
     public function render($request)

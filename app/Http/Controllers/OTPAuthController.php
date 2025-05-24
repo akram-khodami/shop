@@ -27,7 +27,7 @@ class OTPAuthController extends Controller
 
         $mobile = $request->input('mobile');
 
-        $this->OTPService->sendSms($mobile);
+        $response = $this->OTPService->sendSms($mobile);
 
         return response()->json(
             [
