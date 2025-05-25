@@ -165,8 +165,8 @@ class OTPService
         $sms = Sms::create(
             [
                 'code' => $code,
-                'receptor' => $mobile,
-                'expired_at' => Carbon::now()->addMinutes(5), // 5 دقیقه اعتبار,
+                'receptor' => strval($mobile),
+                'expired_at' => Carbon::now()->addMinutes(5), // 2 دقیقه اعتبار,
                 'serviceName' => 'kavenegar',
                 'serviceType' => 'sms',
             ]);
