@@ -27,8 +27,16 @@ class OTPAuthController extends Controller
 
         $mobile = $request->input('mobile');
 
-        $response = $this->OTPService->sendSms($mobile);
+        try {
 
+            $this->OTPService->sendSms($mobile);
+
+        } catch (ApiException $e) {
+
+            throw $e; // Re-throw API exceptions to be handled by Laravel
+
+        }
+        
         return response()->json(
             [
                 'success' => true,

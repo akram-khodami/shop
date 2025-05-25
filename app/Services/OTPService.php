@@ -14,7 +14,7 @@ use function Illuminate\Database\Query\update;
 
 class OTPService
 {
-    private $ApiKey;
+    protected $ApiKey;
 
     public function __construct()
     {
