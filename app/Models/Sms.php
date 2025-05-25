@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Sms extends Model
 {
-//    protected $guarded = [];
     protected $fillable = [
         'code',
         'receptor',
@@ -14,6 +13,7 @@ class Sms extends Model
         'serviceName',
         'serviceType',
         'used',
+        'mobile',
         'ip'
     ];
 

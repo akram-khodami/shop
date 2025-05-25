@@ -21,7 +21,7 @@ return new class extends Migration
             $table->boolean('used')->default(false);
             $table->ipAddress('ip')->nullable();
             $table->timestamps();
-            // ایندکس ترکیبی برای بهبود کارایی
+            //Composite index for performance optimization
             $table->index(['receptor', 'code']);
         });
     }
