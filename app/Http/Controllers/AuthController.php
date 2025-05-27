@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
@@ -6,9 +7,11 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Traits\AuthTrait;
 
 class AuthController extends Controller
 {
+    use AuthTrait;
 
     public function register(RegisterRequest $request)
     {
@@ -91,11 +94,4 @@ class AuthController extends Controller
 
     }
 
-    protected function generateToken(User $user)
-    {
-        $tokenResult = $user->createToken('API Token', ['*'], now()->addDays(1)); // Expires in 1 day
-
-        return $tokenResult;
-
-    }
 }

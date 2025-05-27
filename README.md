@@ -60,6 +60,7 @@ cp .env.example .env
 php artisan key:generate
 php artisan migrate --seed
 php artisan serve
-php artisan queue:work
+php artisan queue:work  # For production
+# php artisan queue:listen  # For development (restarts after each job)
 ```
 ## License

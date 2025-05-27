@@ -17,6 +17,7 @@ use App\Http\Controllers\Frontend\PayController;
 use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\ShippingController;
+use App\Http\Controllers\OTPAuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::namespace('App\Http\Controllers\Frontend')->group(function () {
@@ -78,10 +79,12 @@ Route::namespace('App\Http\Controllers\Frontend')->group(function () {
 
 // احراز هویت
 Route::prefix('auth')->group(function () {
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
-    Route::middleware('auth:sanctum')->get('/user', [AuthController::class, 'user']);
+    Route::post('/register', [AuthController::class, 'register'])->middleware('guest');;
+    Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
+    Route::post('/OTPlogin', [OTPAuthController::class, 'login'])->middleware('guest');;
+    Route::post('/checkCode', [OTPAuthController::class, 'checkCode'])->middleware('guest');;
+    Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout'])->middleware('auth');;
+    Route::middleware('auth:sanctum')->get('/user', [AuthController::class, 'user'])->middleware('auth');;
 });
 
 //پنل مدیریت فروشگاه
