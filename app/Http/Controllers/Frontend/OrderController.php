@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Events\OrderPlaced;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Frontend\OrderResource;
 use App\Models\Order;
@@ -54,6 +55,8 @@ class OrderController extends Controller
 
             // Deactivate cart
             $request->cart->update(['is_active' => false]);
+
+            event(new OrderPlaced($order));
 
             return $order;
 
