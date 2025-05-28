@@ -33,7 +33,11 @@ It includes features like product management, category grouping, attributes, ima
 - ✅ RESTful API built with Laravel 12
 - ✅ API validation with Form Requests
 - ✅ Modular structure for future expansions
+<<<<<<< HEAD
 - ✅ **Email confirmation via Event + Listener + Queue**
+=======
+- ✅ **Swagger API documentation**
+>>>>>>> 770a6ec (Use Swagger for brand and category)
 
 ## 📦 Requirements
 
@@ -61,5 +65,6 @@ php artisan migrate --seed
 php artisan serve
 php artisan queue:work  # For production
 # php artisan queue:listen  # For development (restarts after each job)
+php artisan l5-swagger:generate
 ```
 ## License
