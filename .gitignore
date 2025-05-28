@@ -21,6 +21,8 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
-/storage/debugbar/
-/storage/api-docs/
 composer.lock
+/storage/debugbar/
+# Swagger documentation
+/storage/api-docs/
+/storage/api-docs/api-docs.json
