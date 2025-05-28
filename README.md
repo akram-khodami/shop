@@ -26,14 +26,14 @@ This is a Laravel-based RESTful API for managing an online shop.
 It includes features like product management, category grouping, attributes, image uploads, and more.
 
 ## 🚀 Features
-
-- Product CRUD (with images and attributes)
-- Category grouping
-- Attribute-based filtering
-- Upload and manage product images
-- RESTful API built with Laravel 12
-- API validation with Form Requests
-- Modular structure for future expansions
+- ✅ Product CRUD (with images and attributes)
+- ✅ Category grouping
+- ✅ Attribute-based filtering
+- ✅ Upload and manage product images
+- ✅ RESTful API built with Laravel 12
+- ✅ API validation with Form Requests
+- ✅ Modular structure for future expansions
+- ✅ **Email confirmation via Event + Listener + Queue**
 
 ## 📦 Requirements
 
@@ -59,5 +59,7 @@ cp .env.example .env
 php artisan key:generate
 php artisan migrate --seed
 php artisan serve
+php artisan queue:work  # For production
+# php artisan queue:listen  # For development (restarts after each job)
 ```
 ## License
